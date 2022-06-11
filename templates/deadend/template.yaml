@@ -1,0 +1,14 @@
+release: {{jailrelease}}
+props:
+  vnet: true
+  dhcp: false
+  bpf: true
+  template: false
+pkgs:
+  - git
+tasks:
+  - name: install dnsmasq
+    do: runtemplate
+    template: dnsmasq
+  - name: restart jail
+    do: jailrestart

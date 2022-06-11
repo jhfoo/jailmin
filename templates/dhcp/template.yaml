@@ -1,0 +1,24 @@
+name: {{jailname}}
+release: {{jailrelease}}
+props:
+  vnet: true
+  ip4_addr: {{jailip}}
+  defaultrouter: {{jailgw}}
+  resolver: {{jailresolver}}
+  dhcp: false
+  bpf: true
+  boot: true
+  template: false
+  allow_raw_sockets: true
+  vnet_default_interface: jailvlan
+pkgs:
+  - zsh
+tasks:
+  - name: install dnsmasq
+    do: runtemplate
+    template: dnsmasq
+  - name: install consul
+    do: runtemplate
+    template: consul
+  - name: restart jail
+    do: jailrestart
