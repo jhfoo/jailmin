@@ -26,10 +26,15 @@ echo "- Linking executing to local bin/"
 rm ~/bin/jailmin
 ln -s "$(pwd)/bin/jailmin.py" ~/bin/jailmin
 
+echo "- Copying templates/ to /usr/local/etc/jailmin/"
+sudo rm -rf /usr/local/etc/jailmin/templates
+sudo cp -R templates /usr/local/etc/jailmin
+
 echo "- Install external dependencies"
 sudo pkg install -y py38-iocage py38-pip
 
 echo "- Install Python dependencies"
+sudo rm -rf /usr/local/etc/jailmin/packages
 sudo pip install -t /usr/local/etc/jailmin/packages -r requirements.txt 
 
 printf '- Fetch latest RELEASE base files? y/N '
