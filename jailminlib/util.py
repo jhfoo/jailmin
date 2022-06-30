@@ -2,7 +2,7 @@
 import subprocess
 
 # custom modules
-import lib.logger as logger
+import jailminlib.logger as logger
 
 def execNWaitShell(cmd):
   """Executes command in shell and waits for completion"""

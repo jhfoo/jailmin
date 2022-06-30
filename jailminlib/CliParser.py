@@ -8,8 +8,8 @@ import yaml
 # from lib.jailmin import CurrentJailState
 
 # custom modules
-import lib.statebuilder as statebuilder
-import lib.logger as logger
+import jailminlib.statebuilder as statebuilder
+import jailminlib.logger as logger
 
 CLI_CMD_STATE = 'state'
 CLI_CMD_TEMPLATE = 'template'

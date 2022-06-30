@@ -21,13 +21,13 @@ def appendLibPath():
 appendLibPath()
 
 # custom
-import lib.logger as logger
-import lib.init as init
-import lib.IocageAdapter as IocageAdapter
-import lib.CliParser as CliParser
-import lib.statebuilder as statebuilder
+import jailminlib.logger as logger
+import jailminlib.init as init
+import jailminlib.BastilleAdapter as BastilleAdapter
+import jailminlib.CliParser as CliParser
+import jailminlib.statebuilder as statebuilder
 
-JailManager = IocageAdapter.IocageAdapter ()
+JailManager = BastilleAdapter.BastilleAdapter ()
 
 logger.onlyConsole()
 init.validateRoot()

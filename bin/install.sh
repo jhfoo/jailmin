@@ -31,7 +31,7 @@ sudo rm -rf /usr/local/etc/jailmin/templates
 sudo cp -R templates /usr/local/etc/jailmin
 
 echo "- Install external dependencies"
-sudo pkg install -y py38-iocage py38-pip
+sudo pkg install -y bastille py38-pip
 
 echo "- Install Python dependencies"
 sudo rm -rf /usr/local/etc/jailmin/packages
@@ -40,7 +40,7 @@ sudo pip install -t /usr/local/etc/jailmin/packages -r requirements.txt
 printf '- Fetch latest RELEASE base files? y/N '
 read YESNO
 # read YESNO\?"Fetch latest RELEASE base files?"
-[[ $YESNO == 'y' ]] && sudo iocage fetch -r $RELEASE_LATEST
+#[[ $YESNO == 'y' ]] && sudo iocage fetch -r $RELEASE_LATEST
 
 #echo -e "alias siocage='sudo iocage'" >> ~/.zshrc
 #alias siocage='sudo iocage'

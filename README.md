@@ -1,2 +1,2 @@
 # jailmin
-Version 2 of the tool to simplify jail management using iocage as the lower-level dependency.
+Version 2 of the tool to simplify jail management using [Bastille](https://bastillebsd.org/) as the lower-level dependency.

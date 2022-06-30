@@ -4,7 +4,7 @@ import json
 
 # import custom
 from textwrap import indent
-import lib.logger as logger
+import jailminlib.logger as logger
 
 def getCurrentState(JailManager):
   logger.info('Collecting current jail state')
