@@ -1,0 +1,16 @@
+ARG NET_DEFAULTROUTER=192.168.82.1
+SYSRC defaultrouter=${NET_DEFAULTROUTER}
+
+PKG consul dnsmasq
+
+ARG DNSMASQ_PORT=53
+ARG DNSMASQ_DOMAIN=kungfoo.info
+ARG DNSMASQ_RANGE=192.168.82.50,192.168.82.200,255.255.255.0,2h
+ARG DNSMASQ_DEFAULTROUTE=192.168.82.1
+ARG DNSMASQ_DNS=192.168.88.5
+
+SYSRC dnsmasq_enable=YES
+SERVICE dnsmasq stop
+CP dnsmasq.conf /usr/local/etc/dnsmasq.conf
+RENDER /usr/local/etc/dnsmasq.conf
+SERVICE dnsmasq start

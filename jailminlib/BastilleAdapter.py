@@ -1,6 +1,5 @@
 # import core
 import re
-import logging
 
 # import custom
 import jailminlib.util as util
@@ -10,31 +9,57 @@ class BastilleAdapter:
   def __init__(self) -> None:
       pass
 
+  def getBootOrder(self):
+    InFile = open('/etc/rc.conf','r')
+    for line in InFile.readlines():
+      matches = re.match(r'bastille_list="(.*)"', line)
+      if matches != None:
+        jails = matches.group(1).split(' ')
+        break
+
+    print ('jails: {}'.format(jails))
+    InFile.close()
+
+    return jails if len(jails) > 0 else []
+
   def listJails(self):
     PROPS_SHORTLISTED = ['priority', 'boot']
 
-    result = util.execNWait('bastille list', isPrintRealtime=False)
-    ret = []
-
+    result = util.execNWait('bastille list -a', isPrintRealtime=False)
+    jails = {}
     for line in result['output'].splitlines():
-      matches = re.match(r'\|\s+(\d+)\s+\|\s+(\S+)\s+\|\s+(\S+)\s+\|\s+(\S+)\s+\|\s+(\S+)', line)
+      matches = re.match(r'\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)', line)
       if matches != None:
         jail = {
-          'id': int(matches.group(1)),
-          'name': matches.group(2),
-          'state': matches.group(3),
-          'release': matches.group(4),
-          'ip4': matches.group(5)
+          'id': matches.group(1),
+          'state': matches.group(2),
+          'ip4': matches.group(3),
+          'published': matches.group(4),
+          'hostname': matches.group(5),
+          'release': matches.group(6),
+          'path': matches.group(7),
         }
-        ret.append(jail)
 
-    for jail in ret:
-      JailProps = self.getJailProperties(jail['name'])
-      for prop in PROPS_SHORTLISTED:
-        if prop in JailProps:
-          jail[prop] = JailProps[prop]
+        if jail['id'] != 'JID':
+          jails[jail['id']] = jail
 
-    return ret
+    # parse bastille_list in /etc/rc.conf for
+    # autoboot and boot order
+    BootOrder = 1
+    for JailId in self.getBootOrder():
+      if JailId in jails:
+        jails[JailId]['BootOrder'] = BootOrder
+        BootOrder += 1
+      else:
+        logger.warning('JailId does not exist: {}'.format(JailId))
+
+    # for jail in ret:
+    #   JailProps = self.getJailProperties(jail['id'])
+    #   for prop in PROPS_SHORTLISTED:
+    #     if prop in JailProps:
+    #       jail[prop] = JailProps[prop]
+
+    return list(jails.values())
 
   def getJailProperties(self, JailId):
     logger.debug ('Reading jail properties for {}'.format(JailId))

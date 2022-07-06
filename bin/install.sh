@@ -45,4 +45,12 @@ read YESNO
 #echo -e "alias siocage='sudo iocage'" >> ~/.zshrc
 #alias siocage='sudo iocage'
 
+echo '- Creating vnet interface in /etc/rc.conf'
+sudo sysrc cloned_interfaces="epair0"
+sudo sysrc ifconfig_epair0a="192.168.82.1/24"
+
+echo '- Enabling Bastille in /etc/rc.conf'
+sudo sysrc bastille_enable="YES"
+sudo sysrc bastille_list=""
+
 echo $TEXT_CLOSING

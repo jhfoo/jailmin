@@ -17,6 +17,10 @@ def error(msg, type = 'default'):
   logger = logging.getLogger(type)
   logger.error(msg)
 
+def warning(msg, type = 'default'):
+  logger = logging.getLogger(type)
+  logger.warning(msg)
+
 def info(msg, type = 'default'):
   if type not in loggers:
     loggers[type] = logging.getLogger(type)

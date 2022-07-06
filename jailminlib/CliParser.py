@@ -62,10 +62,10 @@ def parseCli():
     logger.info('Logging switched to DEBUG mode')
     logger.setLevel(logging.DEBUG)
 
+  print (ret)
   return ret
 
 def execCmdState(ParsedArgs, JailManager, CurrentJailState):
-  logger.debug (json.dumps(ParsedArgs, indent=2))
   if len(ParsedArgs['cmd']) < 2:
     print ('USAGE: jailmin state list|show|priority [--dev|--t]')
     return
@@ -108,3 +108,5 @@ def execCli(ParsedArgs, JailManager, CurrentJailState):
     execCmdState(ParsedArgs, JailManager, CurrentJailState)
   elif ParsedArgs['cmd'][0] == CLI_CMD_TEMPLATE:
     execCmdTemplate(ParsedArgs, JailManager, CurrentJailState)
+  else:
+    print ('Unknown command {}'.format(ParsedArgs['cmd'][0]))
