@@ -25,7 +25,7 @@ class BastilleAdapter:
   def listJails(self):
     PROPS_SHORTLISTED = ['priority', 'boot']
 
-    result = util.execNWait('bastille list -a', isPrintRealtime=False)
+    result = util.execNWait('bastille list -a', isPrintRealtime=False, isContinueOnError=True)
     jails = {}
     for line in result['output'].splitlines():
       matches = re.match(r'\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)', line)

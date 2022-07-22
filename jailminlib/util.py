@@ -41,7 +41,7 @@ def execNWait(cmd, isTest4Shell=True, isContinueOnError=False, isPrintRealtime=T
         code = child.poll()
         if code is not None:
           if code > 0 and not isContinueOnError:
-            raise Exception('FAILED (code {}): {}'.format(code, cmd))
+            raise Exception('FAILED (code {}): {}'.format(code, err))
           # print ('Exit code: {}'.format(str(code)))
 
           # if isPrintRealtime:
