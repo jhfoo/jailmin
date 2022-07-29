@@ -3,6 +3,7 @@
 from ast import parse
 from curses import has_key
 from importlib.resources import path
+import logging
 import os
 import sys
 import pathlib
@@ -29,7 +30,7 @@ import jailminlib.statebuilder as statebuilder
 
 JailManager = BastilleAdapter.BastilleAdapter ()
 
-logger.onlyConsole()
+logger.onlyConsole(loglevel = logging.DEBUG)
 init.validateRoot()
 
 CurrentJailState = statebuilder.getCurrentState(JailManager)

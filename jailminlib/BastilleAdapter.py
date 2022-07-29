@@ -17,7 +17,7 @@ class BastilleAdapter:
         jails = matches.group(1).split(' ')
         break
 
-    print ('jails: {}'.format(jails))
+    logger.debug ('jails: {}'.format(jails))
     InFile.close()
 
     return jails if len(jails) > 0 else []
