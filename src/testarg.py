@@ -3,8 +3,8 @@ import argparse
 import json
 import sys
 
-# public lib
-import psutil
+# custom lib
+import SetupJailEnv
 
 CMD_CREATE = 'create'
 CMD_INIT = 'init'
@@ -22,23 +22,14 @@ def getParsedArgs():
   else:
     return parser.parse_args()
 
-def setupJailEnv():
-  print ('Interfaces: ', end='')
-  interfaces = []
-  for intf in psutil.net_if_addrs().keys():
-    if not intf == 'lo0':
-      interfaces.append(intf)
 
-  print ('OK')
-  for intf in interfaces:
-    print ('- {}'.format(intf))
 
 def main():
   args = getParsedArgs()
   if args.cmd == CMD_CREATE:
     print (args)
   elif args.cmd == CMD_INIT:
-    setupJailEnv()
+    SetupJailEnv.do()
 
 main()
 
