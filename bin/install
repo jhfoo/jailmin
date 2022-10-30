@@ -1,0 +1,7 @@
+PYTHON=/usr/local/bin/python3.9
+SUDO=sudo
+
+$SUDO pkg install -y py39-pip
+rm -rf venv
+$PYTHON -m venv venv
+./venv/bin/pip install -r requirements.txt
