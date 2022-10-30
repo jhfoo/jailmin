@@ -24,7 +24,11 @@ def getParsedArgs():
 
 def setupJailEnv():
   print ('Interfaces: ', end='')
-  interfaces = psutil.net_if_addrs().keys()
+  interfaces = []
+  for intf in psutil.net_if_addrs().keys():
+    if not intf == 'lo0':
+      interfaces.append(intf)
+
   print ('OK')
   for intf in interfaces:
     print ('- {}'.format(intf))
