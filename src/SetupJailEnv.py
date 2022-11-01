@@ -1,6 +1,8 @@
 # core lib
+import ipaddress
 import re
 import subprocess
+import sys
 
 # public lib
 import psutil
@@ -101,10 +103,14 @@ def do():
 
   resp = getOptionInput('Update rc.conf?', IsYesDefault=True)
   if resp == 'y':
-    BridgeAddress = getOptionInput('- Bridge address?', default='192.168.100.1/24')
-    BridgeSubnet = getOptionInput('- Bridge subnet?', default='192.168.100.0/24')
+    BridgeAddress = ipaddress.IPv4Interface(getOptionInput('- Bridge address?', default='192.168.100.1/24'))
+    BridgeSubnet = BridgeAddress.netmask
+    print ('- Bridge subnet is {}'.format(BridgeAddress.network))
     InternetInterface = getOptionInput('- Internet interface?', default=interfaces[0], choices=interfaces)
-    execShell('./bin/install-rc.conf {}'.format(BridgeAddress))
+    DhcpStart = getOptionInput('- DHCP start address?', default='192.168.100.10')
+    DhcpEnd = getOptionInput('- DHCP end address?', default='192.168.100.250')
+
+    execShell('./bin/install-rc.conf {}'.format(BridgeAddress.with_prefixlen))
     updatePfConf(BridgeSubnet = BridgeSubnet, InternetInterface = InternetInterface)
 
   # resp = getOptionInput('Restart network?', IsYesDefault=True)
