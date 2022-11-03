@@ -7,7 +7,10 @@ import sys
 # public lib
 import psutil
 
-
+DEF_DHCP_START_BUFFER = 20
+DEF_DHCP_END_BUFFER = 55
+DEF_BASE_IMAGE = '13.1-RELEASE'
+DEF_BRIDGE_NAME = 'public'
 
 
 def getOptionInput(text, default = None, IsYesNo = True, IsYesDefault = False, IsNoDefault = False, choices = None):
@@ -101,18 +104,40 @@ def do():
   for intf in interfaces:
     print ('- {}'.format(intf))
 
+  # get custom params
+  BridgeSubnet = ipaddress.ip_network(getOptionInput('- Bridge subnet?', default='192.168.100.0/24'))
+  BridgeIp = next(BridgeSubnet.hosts())
+  print ('- Bridge ip is {}/{}'.format(BridgeIp,BridgeSubnet.prefixlen))
+
+  # update rc.conf
   resp = getOptionInput('Update rc.conf?', IsYesDefault=True)
   if resp == 'y':
-    BridgeAddress = ipaddress.IPv4Interface(getOptionInput('- Bridge address?', default='192.168.100.1/24'))
-    BridgeSubnet = BridgeAddress.netmask
-    print ('- Bridge subnet is {}'.format(BridgeAddress.network))
-    InternetInterface = getOptionInput('- Internet interface?', default=interfaces[0], choices=interfaces)
-    DhcpStart = getOptionInput('- DHCP start address?', default='192.168.100.10')
-    DhcpEnd = getOptionInput('- DHCP end address?', default='192.168.100.250')
+    execShell('./bin/install-rc.conf {}/{}'.format(BridgeIp, BridgeSubnet.prefixlen))
 
-    execShell('./bin/install-rc.conf {}'.format(BridgeAddress.with_prefixlen))
+  # update pf.conf
+  resp = getOptionInput('Update pf.conf?', IsYesDefault=True)
+  if resp == 'y':
+    InternetInterface = getOptionInput('- Internet interface?', default=interfaces[0], choices=interfaces)
     updatePfConf(BridgeSubnet = BridgeSubnet, InternetInterface = InternetInterface)
 
+  # install dhcp jail
+  resp = getOptionInput('Install DHCP service?', IsYesDefault=True)
+  if resp == 'y':
+    DhcpJailIp = BridgeIp + 1
+    print ('- DHCP svc addr: {}'.format(DhcpJailIp))
+    DefaultDhcpStart = BridgeIp + DEF_DHCP_START_BUFFER
+    DhcpStart = getOptionInput('- DHCP start address?', default=DefaultDhcpStart)
+    DefaultDhcpEnd = BridgeSubnet.broadcast_address - DEF_DHCP_END_BUFFER
+    DhcpEnd = getOptionInput('- DHCP end address?', default=DefaultDhcpEnd)
+
+    JailName = 'dhcpsvc'
+    execShell('bastille stop {}'.format(JailName))
+    execShell('bastille destroy {}'.format(JailName))
+    execShell('bastille create -B {jail} {image} {addr} {interface}'.format(
+      jail = JailName,
+      image = DEF_BASE_IMAGE,
+      addr = DhcpJailIp,
+      interface = DEF_BRIDGE_NAME))
   # resp = getOptionInput('Restart network?', IsYesDefault=True)
   # if resp == 'y':
   #   execShell('sudo service netif restart')
