@@ -7,6 +7,9 @@ import sys
 # public lib
 import psutil
 
+# custom lib
+from Jailconf import Jailconf
+
 DEF_DHCP_START_BUFFER = 20
 DEF_DHCP_END_BUFFER = 55
 DEF_BASE_IMAGE = '13.1-RELEASE'
@@ -94,6 +97,11 @@ def updatePfConf(BridgeSubnet, InternetInterface):
   execShell('pfctl -f /etc/pf.conf')
 
 def do():
+  # conf = Jailconf.createFromFile('/usr/local/bastille/jails/dhcpsvc/jail.conf')
+  # print (conf.toString())
+  # conf.toFile('/usr/local/bastille/jails/dhcpsvc/jail.conf')
+  # sys.exit(0)
+
   print ('Interfaces: ', end='')
   interfaces = []
   for intf in psutil.net_if_addrs().keys():
@@ -138,6 +146,10 @@ def do():
       image = DEF_BASE_IMAGE,
       addr = DhcpJailIp,
       interface = DEF_BRIDGE_NAME))
+    execShell('bastille sysrc {} defaultrouter={}'.format(JailName, BridgeIp))
+    execShell('bastille restart {}'.format(JailName))
+
+  # conf = Jailconf.createFromFile('/usr/local/bastille/jails/dhcpsvc/jail.conf')
   # resp = getOptionInput('Restart network?', IsYesDefault=True)
   # if resp == 'y':
   #   execShell('sudo service netif restart')
