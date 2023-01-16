@@ -5,13 +5,17 @@ import sys
 
 # custom lib
 import SetupJailEnv
+import CmdRestart
 
 CMD_CREATE = 'create'
 CMD_INIT = 'init'
+CMD_RESTART = 'restart'
+CMD_CONSOLE = 'console'
+CMD_CONSOLE2 = 'con'
 
 def getParsedArgs():
   parser = argparse.ArgumentParser(description="Jailmin command line")
-  parser.add_argument('cmd', choices=[CMD_CREATE, CMD_INIT])
+  parser.add_argument('cmd', choices=[CMD_CREATE, CMD_INIT, CMD_RESTART, CMD_CONSOLE, CMD_CONSOLE2])
   parser.add_argument('jailname', metavar='jail', type=str, nargs='?', help='jail name')
   parser.add_argument('-c', '--config', nargs=1)
   parser.add_argument('-v', '--vars', nargs=1)
@@ -30,6 +34,10 @@ def main():
     print (args)
   elif args.cmd == CMD_INIT:
     SetupJailEnv.do()
+  elif args.cmd == CMD_RESTART:
+    CmdRestart.do(args)
+  elif args.cmd == CMD_CONSOLE or args.cmd == CMD_CONSOLE2:
+    print (args)
 
 main()
 
