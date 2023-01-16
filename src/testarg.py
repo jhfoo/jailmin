@@ -35,9 +35,9 @@ def main():
   elif args.cmd == CMD_INIT:
     SetupJailEnv.do()
   elif args.cmd == CMD_RESTART:
-    CmdRestart.do(args)
+    CmdRestart.cmdRestart(args)
   elif args.cmd == CMD_CONSOLE or args.cmd == CMD_CONSOLE2:
-    print (args)
+    CmdRestart.cmdConsole(args)
 
 main()
 

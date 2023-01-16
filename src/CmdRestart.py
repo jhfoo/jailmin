@@ -1,7 +1,7 @@
 import subprocess
 
-def do(args):
-  print (args)
+def cmdRestart(args):
+  # print (args)
   MatchedJailId = matchJailId(args.jailname)
   if MatchedJailId == None:
     print ('Invalid or ambiguous jail id')
@@ -10,6 +10,17 @@ def do(args):
   result = subprocess.run(['bastille','restart', MatchedJailId], capture_output=True, text=True)
   print (result.stdout)
   print (result.stderr)
+
+def cmdConsole(args):
+  # print (args)
+  MatchedJailId = matchJailId(args.jailname)
+  if MatchedJailId == None:
+    print ('Invalid or ambiguous jail id')
+    return
+
+  result = subprocess.run(['bastille','console', MatchedJailId])
+  # print (result.stdout)
+  # print (result.stderr)
 
 def matchJailId(TestJailId):
   jails = getJails()
@@ -46,7 +57,7 @@ def getJails():
 
       ret[JailInfo['id']] = JailInfo
 
-  print (ret)
+  # print (ret)
 
   print (result.stderr)
   return ret
