@@ -2,6 +2,7 @@
 Version 2 of the tool to simplify jail management using [Bastille](https://bastillebsd.org/) as the lower-level dependency.
 
 ## Goals
+- [ ] Improve off-the-shelf Bastille experience 
 - [ ] Standardise/automate jail environment creation
 - [ ] Simplify jail CRUD actions
 - [ ] Make jails distributable
@@ -14,7 +15,21 @@ Version 2 of the tool to simplify jail management using [Bastille](https://basti
 1. [bastille](https://github.com/BastilleBSD/bastille)
 2. [Python](https://www.python.org)
 
-## Progress status: 0%
+## Progress status: 5%
+### Notable features
+#### Enhanced Bastille commands
+Maps Bastille RESTART and CONSOLE commands to smart jail names. E.g. `bastille restart long-jail-name` is replaced with `jailmin restart first-jail-chars`.
+
+Example
+```
+bastille restart windy-word-jail-name
+```
+replaced with
+```
+bastille restart windy
+```
+
+If there are ambiguities (windy-word1-jail and windy-word2-jail) the 'smart' jail name needs to be longer to disambiguate (windy-word1).
 
 ## Install
 1. Before running bootstrap cmd below consider enabling zfs support in `/usr/local/etc/bastille/bastille.conf`:
