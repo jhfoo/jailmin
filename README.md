@@ -17,7 +17,12 @@ Version 2 of the tool to simplify jail management using [Bastille](https://basti
 
 ## Progress status: 5%
 ### Notable features
-#### Enhanced Bastille commands
+#### Additional bootstrap capabilities
+Added the following BOOTSTRAP subcommands:
+- latest (`bastille bootstrap latest`): downloads the latest RELEASE image
+- list (`bastille bootstrap list [release|template|all]`): lists downloaded releases or templates
+
+#### Auto-match jail
 Maps Bastille RESTART and CONSOLE commands to smart jail names. E.g. `bastille restart long-jail-name` is replaced with `jailmin restart first-jail-chars`.
 
 Example
