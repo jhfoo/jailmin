@@ -5,3 +5,6 @@ $SUDO pkg install -y py39-pip bastille
 rm -rf venv
 $PYTHON -m venv venv
 ./venv/bin/pip install -r requirements.txt
+
+$SUDO rm /usr/local/bin/jailmin
+$SUDO ln -s "$(pwd)/bin/jmin" /usr/local/bin/jailmin
