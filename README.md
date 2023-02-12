@@ -15,14 +15,14 @@ Version 2 of the tool to simplify jail management using [Bastille](https://basti
 1. [bastille](https://github.com/BastilleBSD/bastille)
 2. [Python](https://www.python.org)
 
-## Progress status: 5%
+## Progress status: 8%
 ### Notable features
-#### Additional bootstrap capabilities
-Added the following BOOTSTRAP subcommands:
+#### FEATURE: Additional bootstrap feature
+ Added the following BOOTSTRAP subcommands (all existing BOOTSTRAP commands still work):
 - latest (`bastille bootstrap latest`): downloads the latest RELEASE image
 - list (`bastille bootstrap list [release|template|all]`): lists downloaded releases or templates
 
-#### Auto-match jail
+#### FEATURE: Auto-match jail
 Maps Bastille RESTART and CONSOLE commands to smart jail names. E.g. `bastille restart long-jail-name` is replaced with `jailmin restart first-jail-chars`.
 
 Example
