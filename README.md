@@ -1,8 +1,9 @@
 # jailmin
-Version 2 of the tool to simplify jail management using [Bastille](https://bastillebsd.org/) as the lower-level dependency.
+## What is jailmin?
+Jailmin is an opinionated jail management implementation based off the [Bastille](https://bastillebsd.org/) framework.
 
 ## Goals
-- [ ] Improve off-the-shelf Bastille experience 
+- [x] IN-FLIGHT: Improve off-the-shelf Bastille experience 
 - [ ] Standardise/automate jail environment creation
 - [ ] Simplify jail CRUD actions
 - [ ] Make jails distributable
@@ -21,6 +22,7 @@ Version 2 of the tool to simplify jail management using [Bastille](https://basti
  Added the following BOOTSTRAP subcommands (all existing BOOTSTRAP commands still work):
 - latest (`bastille bootstrap latest`): downloads the latest RELEASE image
 - list (`bastille bootstrap list [release|template|all]`): lists downloaded releases or templates
+- delete (`bastille bootstrap delete [release|template] [name]): removes bootstrapped release or template
 
 #### FEATURE: Auto-match jail
 Maps Bastille RESTART and CONSOLE commands to smart jail names. E.g. `bastille restart long-jail-name` is replaced with `jailmin restart first-jail-chars`.
@@ -50,3 +52,6 @@ cd jailmin
 ./bin/install.sh
 sudo bastille bootstrap 13.1-RELEASE
 ```
+
+## TODOs
+1. Non-ZFS suppport

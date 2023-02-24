@@ -68,16 +68,20 @@ def deleteBootstrap(args):
 
     if args[0] == LIST_RELEASE:
       rmZfsPath(DIR_ZFS_BASE + '/cache/' + subfolder)
-      shutil.rmtree(DIR_CACHE + '/' + subfolder)
+      path = DIR_CACHE + '/' + subfolder
+      shutil.rmtree(path)
+      print ('Removed ' + path)
 
       rmZfsPath(DIR_ZFS_BASE + '/releases/' + subfolder)
-      shutil.rmtree(DIR_RELEASES + '/' + subfolder)
+      path = DIR_RELEASES + '/' + subfolder
+      shutil.rmtree(path)
+      print ('Removed ' + path)
   else:
     print ('Missing release or template: {}'.format(subfolder))
 
   
 
-def cmdBootstrap(args):
+def execCmd(args):
   BaseParams = ['bastille','bootstrap']
   CmdArgs = getattr(args,'CmdArgs')
   if len(CmdArgs) > 0:

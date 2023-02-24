@@ -1,2 +1,6 @@
+wheel
 pyyaml 
 psutil
+paramiko
+fastapi
+uvicorn[standard]

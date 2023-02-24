@@ -1,1 +1,1 @@
-/usr/home/jhfoo/jailmin/venv/bin/python3 src/testarg.py $@
+/usr/home/jhfoo/jailmin/venv/bin/python3 /usr/home/jhfoo/jailmin/src/testarg.py $@
