@@ -1,0 +1,4 @@
+sysrc defaultrouter="$JailDefaultRouter"
+pkg zsh bash
+cmd pw user add -n app -c 'Service Account' -d /home/app -m -s /usr/local/bin/zsh
+cmd touch /home/app/.zshrc

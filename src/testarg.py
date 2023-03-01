@@ -31,13 +31,34 @@ CmdChoices = [CMD_CREATE, CMD_INIT,
   CMD_RESTART, CMD_CONSOLE, 
   CMD_CONSOLE2, CMD_BOOTSTRAP,
   CMD_CMD, CMD_CLONE,
-  CMD_CONVERT, CMD_TEMPLATE,
+  CMD_CONVERT, 
+  # CMD_TEMPLATE,
   CMD_CLIENT, CMD_SERVER]
 
 def getParsedArgs():
   parser = argparse.ArgumentParser(prog='jailmin', description="Jailmin command line")
-  parser.add_argument('cmd', choices = CmdChoices)
-  parser.add_argument('CmdArgs', nargs='*')
+
+  subparser = parser.add_subparsers(dest = 'cmd')
+
+  TemplateParser = subparser.add_parser(CMD_TEMPLATE)
+  TemplateParser.add_argument('JailId', help = 'Jail Id')
+  TemplateParser.add_argument('TemplatePath', help = 'Template folder')
+  TemplateParser.add_argument('-v', dest='vars', nargs=1, help = 'Full path to variables file (YAML format)')
+
+  ConsoleParser = subparser.add_parser(CMD_CONSOLE)
+  ConsoleParser.add_argument('jailid', help = 'Jail Id')
+
+  ServerParser = subparser.add_parser(CMD_SERVER)
+
+  ClientParser = subparser.add_parser(CMD_CLIENT)
+  ClientParser.add_argument('artifacts', nargs='*')
+
+  RestartParser = subparser.add_parser(CMD_RESTART)
+  RestartParser.add_argument('JailId', help = 'Jail Id')
+
+  # parser.add_argument('cmd', choices = CmdChoices)
+  # parser.add_argument('CmdArgs', nargs='*')
+
   # parser.add_argument('jailname', metavar='jail', type=str, nargs='?', help='jail name')
   # parser.add_argument('-c', '--config', nargs=1)
   # parser.add_argument('-v', '--vars', nargs=1)
@@ -48,16 +69,19 @@ def getParsedArgs():
   else:
     return parser.parse_args()
 
-
+def onTemplate(**kwargs):
+  print ('hmm')
 
 def main():
   args = getParsedArgs()
+  print (args)
+
   if args.cmd == CMD_CREATE:
     print (args)
   elif args.cmd == CMD_INIT:
     SetupJailEnv.do()
   elif args.cmd == CMD_RESTART:
-    CmdRestart.cmdRestart(args)
+    CmdRestart.execCmd(args)
   elif args.cmd == CMD_CONSOLE or args.cmd == CMD_CONSOLE2:
     CmdConsole.execCmd(args)
   elif args.cmd == CMD_BOOTSTRAP:
