@@ -5,14 +5,13 @@ import CmdUtil
 
 def execCmd(args):
   # print (args)
-  CmdArgs = getattr(args,'CmdArgs')
-  JailName = CmdArgs[0]
 
-  MatchedJailId = CmdUtil.matchJailId(JailName)
+  MatchedJailId = CmdUtil.matchJailId(args.JailId)
   if MatchedJailId == None:
     print ('Invalid or ambiguous jail id')
     return
 
+  print (f'Matched jail: {MatchedJailId}')
   result = subprocess.run(['bastille','console', MatchedJailId])
   print (result.stdout)
   print (result.stderr)

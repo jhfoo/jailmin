@@ -60,4 +60,4 @@ def execCmd(args):
     execStockTemplateCmd([args.JailId, 'kungfoo/temp'])
 
     # housekeeping
-    # shutil.rmtree(PATH_TEMP)
+    shutil.rmtree(PATH_TEMP)

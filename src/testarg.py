@@ -46,7 +46,7 @@ def getParsedArgs():
   TemplateParser.add_argument('-v', dest='vars', nargs=1, help = 'Full path to variables file (YAML format)')
 
   ConsoleParser = subparser.add_parser(CMD_CONSOLE)
-  ConsoleParser.add_argument('jailid', help = 'Jail Id')
+  ConsoleParser.add_argument('JailId', help = 'Jail Id')
 
   ServerParser = subparser.add_parser(CMD_SERVER)
 
