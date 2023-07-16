@@ -13,9 +13,11 @@ import CmdTemplate
 import CmdConsole
 import CmdClient
 import CmdServer
+import CmdUtil
 import Bastille
 
 CMD_CREATE = 'create'
+CMD_GUESS = 'guess'
 CMD_INIT = 'init'
 CMD_RESTART = 'restart'
 CMD_LIST = 'list'
@@ -57,6 +59,11 @@ def getParsedArgs():
   ListParser.add_argument('-json','-js', action='store_true')
   ListParser.set_defaults(func=listJails)
 
+  GuessParser = subparser.add_parser(CMD_GUESS, aliases=[], help='Guess jail name')
+  GuessParser.add_argument('JailPart')
+  GuessParser.set_defaults(func=guessJail)
+
+
   ServerParser = subparser.add_parser(CMD_SERVER)
 
   ClientParser = subparser.add_parser(CMD_CLIENT)
@@ -81,6 +88,18 @@ def getParsedArgs():
     sys.exit(0)
   else:
     return parser.parse_args()
+
+def guessJail(args):
+  resp = CmdUtil.guessJail(args.JailPart)
+  if resp == None:
+    print ('No jail matched')
+  else:
+    print ('Matched jails:')
+    if isinstance(resp, str):
+      print (f'- {resp}')
+    else:
+      for id in resp:
+        print (f'- {id}')
 
 def listJails(args):
   # print (args)

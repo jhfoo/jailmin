@@ -1,4 +1,21 @@
 import subprocess
+import Bastille
+
+def guessJail(JailPart):
+  jails = Bastille.getAllJails()
+
+  ret = []
+  for JailId in jails:
+    if JailPart in JailId.lower():
+      ret.append(JailId)
+
+  if len(ret) == 0:
+    return None
+  elif len(ret) == 1:
+    return ret[0]
+  else:
+    return ret
+
 
 def matchJailId(TestJailId):
   jails = getJails()
