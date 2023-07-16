@@ -1,4 +1,8 @@
 sysrc defaultrouter="$JailDefaultRouter"
-pkg zsh bash
+
+cmd mkdir -p /usr/local/etc/pkg/repos
+CP FreeBSD.conf /usr/local/etc/pkg/repos/
+
+pkg zsh
 cmd pw user add -n app -c 'Service Account' -d /home/app -m -s /usr/local/bin/zsh
 cmd touch /home/app/.zshrc

@@ -13,10 +13,13 @@ import CmdTemplate
 import CmdConsole
 import CmdClient
 import CmdServer
+import Bastille
 
 CMD_CREATE = 'create'
 CMD_INIT = 'init'
 CMD_RESTART = 'restart'
+CMD_LIST = 'list'
+CMD_LIST2 = 'ls'
 CMD_CONSOLE = 'console'
 CMD_CONSOLE2 = 'con'
 CMD_BOOTSTRAP = 'bootstrap'
@@ -48,6 +51,12 @@ def getParsedArgs():
   ConsoleParser = subparser.add_parser(CMD_CONSOLE)
   ConsoleParser.add_argument('JailId', help = 'Jail Id')
 
+  # reference subparser 
+  ListParser = subparser.add_parser(CMD_LIST, aliases=[CMD_LIST2], help='List managed jails')
+  ListParser.add_argument('-run', action='store_true')
+  ListParser.add_argument('-json','-js', action='store_true')
+  ListParser.set_defaults(func=listJails)
+
   ServerParser = subparser.add_parser(CMD_SERVER)
 
   ClientParser = subparser.add_parser(CMD_CLIENT)
@@ -63,21 +72,50 @@ def getParsedArgs():
   # parser.add_argument('-c', '--config', nargs=1)
   # parser.add_argument('-v', '--vars', nargs=1)
 
+  args = parser.parse_args()
+  args.func(args)
+  return args
+
   if len(sys.argv) < 2:
     print (parser.print_help())
     sys.exit(0)
   else:
     return parser.parse_args()
 
+def listJails(args):
+  # print (args)
+  jails = Bastille.getAllJails()
+
+  if args.run:
+    RunningJails = {}
+    JailIds = jails.keys()
+    for JailId in JailIds:
+      if jails[JailId]['isRunning']:
+        RunningJails[JailId] = jails[JailId]
+    jails = RunningJails
+
+  if args.json:
+    print (jails)
+  else:
+    print (f'{"Jail Id":20} Is Running')
+    print (f'{"-"*20} {"-"*10}')
+
+    JailIds = jails.keys()
+    JailIds = sorted(JailIds)
+    for JailId in JailIds:
+      print (f'{JailId:20} {jails[JailId]["isRunning"]}')
+
 def onTemplate(**kwargs):
   print ('hmm')
 
 def main():
   args = getParsedArgs()
-  print (args)
+  return
 
   if args.cmd == CMD_CREATE:
     print (args)
+  # elif args.cmd == CMD_LIST or args.cmd == CMD_LIST2:
+  #   print (Bastille.getAllJails())
   elif args.cmd == CMD_INIT:
     SetupJailEnv.do()
   elif args.cmd == CMD_RESTART:

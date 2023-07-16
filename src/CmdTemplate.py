@@ -6,9 +6,20 @@ import yaml
 def execStockTemplateCmd(params):
   BaseParams = ['bastille','template']
 
-  result = subprocess.run(BaseParams + params, capture_output=True, text=True)
-  print (result.stdout)
-  print (result.stderr)
+  child = subprocess.Popen(BaseParams + params,
+    shell=False,
+    stdout=subprocess.PIPE,
+    stderr=subprocess.STDOUT,
+    universal_newlines=True)
+  while child.poll() is None:
+    line = child.stdout.readline().strip()
+    if line == '':
+      continue
+    print (line)
+
+  # result = subprocess.run(BaseParams + params, capture_output=True, text=True)
+  # print (result.stdout)
+  # print (result.stderr)
 
 def execCmd(args):
 
