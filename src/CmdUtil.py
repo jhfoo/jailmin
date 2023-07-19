@@ -1,4 +1,8 @@
+# core
+import os
 import subprocess
+import re
+# custom
 import Bastille
 
 def guessJail(JailPart):
@@ -16,6 +20,27 @@ def guessJail(JailPart):
   else:
     return ret
 
+def setRcConf(key, value):
+  ExitCode = os.system(f'sysrc {key}="{value}"')
+  if ExitCode != 0:
+    raise Exception(f'Unexpected exit code: {ExitCode}')
+  # print (ExitCode)
+
+def readRcConf():
+  ret = {}
+
+  RcConf = open('/etc/rc.conf','r')
+  for line in RcConf.readlines():
+    if line.startswith('bastille_'):
+      matches = re.match('bastille_(?P<key>.+?)\s*=\s*"(?P<value>.+)"',line)
+      if matches.group('key') == 'list':
+        ret[matches.group('key')] = matches.group('value').split(' ')
+      else:
+        ret[matches.group('key')] = matches.group('value')
+
+  RcConf.close()
+
+  return ret
 
 def matchJailId(TestJailId):
   jails = getJails()

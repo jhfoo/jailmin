@@ -13,15 +13,11 @@ import CmdTemplate
 import CmdConsole
 import CmdClient
 import CmdServer
-import CmdUtil
-import Bastille
+import CmdHandler
 
 CMD_CREATE = 'create'
-CMD_GUESS = 'guess'
 CMD_INIT = 'init'
 CMD_RESTART = 'restart'
-CMD_LIST = 'list'
-CMD_LIST2 = 'ls'
 CMD_CONSOLE = 'console'
 CMD_CONSOLE2 = 'con'
 CMD_BOOTSTRAP = 'bootstrap'
@@ -53,16 +49,7 @@ def getParsedArgs():
   ConsoleParser = subparser.add_parser(CMD_CONSOLE)
   ConsoleParser.add_argument('JailId', help = 'Jail Id')
 
-  # reference subparser 
-  ListParser = subparser.add_parser(CMD_LIST, aliases=[CMD_LIST2], help='List managed jails')
-  ListParser.add_argument('-run', action='store_true')
-  ListParser.add_argument('-json','-js', action='store_true')
-  ListParser.set_defaults(func=listJails)
-
-  GuessParser = subparser.add_parser(CMD_GUESS, aliases=[], help='Guess jail name')
-  GuessParser.add_argument('JailPart')
-  GuessParser.set_defaults(func=guessJail)
-
+  CmdHandler.registerParsers(subparser)
 
   ServerParser = subparser.add_parser(CMD_SERVER)
 
@@ -89,40 +76,7 @@ def getParsedArgs():
   else:
     return parser.parse_args()
 
-def guessJail(args):
-  resp = CmdUtil.guessJail(args.JailPart)
-  if resp == None:
-    print ('No jail matched')
-  else:
-    print ('Matched jails:')
-    if isinstance(resp, str):
-      print (f'- {resp}')
-    else:
-      for id in resp:
-        print (f'- {id}')
 
-def listJails(args):
-  # print (args)
-  jails = Bastille.getAllJails()
-
-  if args.run:
-    RunningJails = {}
-    JailIds = jails.keys()
-    for JailId in JailIds:
-      if jails[JailId]['isRunning']:
-        RunningJails[JailId] = jails[JailId]
-    jails = RunningJails
-
-  if args.json:
-    print (jails)
-  else:
-    print (f'{"Jail Id":20} Is Running')
-    print (f'{"-"*20} {"-"*10}')
-
-    JailIds = jails.keys()
-    JailIds = sorted(JailIds)
-    for JailId in JailIds:
-      print (f'{JailId:20} {jails[JailId]["isRunning"]}')
 
 def onTemplate(**kwargs):
   print ('hmm')
