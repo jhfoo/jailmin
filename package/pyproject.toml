@@ -1,0 +1,11 @@
+[build-system]
+requires = [ "setuptools",]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "jailmin"
+version = "0.0.1+build.2"
+dependencies = []
+
+[project.scripts]
+jailmin = "jailmin:doCli"

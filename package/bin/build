@@ -1,0 +1,2 @@
+venv/bin/python3 update-version.py $1
+venv/bin/python3 -m build
