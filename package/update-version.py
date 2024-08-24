@@ -5,9 +5,12 @@ import toml
 import semver
 
 FILE_TOML = 'pyproject.toml'
-FILE_LOCAL_INSTALL_PART = 'local-install'
+FILE_LOCAL_INSTALL_PART = 'install-local'
+FILE_USER_INSTALL_PART = 'install-user'
 
-def upgradeVersion(args, ver):
+def upgradeVersion(ver):
+  args = getArgs()
+
   if args.minor:
     return ver.bump_minor()
   if args.patch:
@@ -16,31 +19,42 @@ def upgradeVersion(args, ver):
   # else
   return ver.bump_build()
 
-infile = open(FILE_TOML,'r')
-config = toml.loads(infile.read())
-infile.close()
+def updateExecScript(fname, ver):
+  infile = open(f"{fname}.template",'r')
+  template = infile.read()
+  infile.close()
 
-parser = argparse.ArgumentParser(
-  prog='update-version'
-)
-parser.add_argument('--minor', action=argparse.BooleanOptionalAction)
-parser.add_argument('--build', action=argparse.BooleanOptionalAction)
-parser.add_argument('--patch', action=argparse.BooleanOptionalAction)
-args = parser.parse_args()
+  outfile = open(f"bin/{fname}",'w')
+  template = template.replace('__VERSION__',ver)
+  outfile.write(template)
+  outfile.close()
 
-ver = upgradeVersion(args, semver.Version.parse(config['project']['version']))
-config['project']['version'] = str(ver)
-print (f"New version: {ver}")
 
-outfile = open(FILE_TOML,'w')
-outfile.write(toml.dumps(config))
-outfile.close()
+def getArgs():
+  parser = argparse.ArgumentParser(
+    prog='update-version'
+  )
+  parser.add_argument('--minor', action=argparse.BooleanOptionalAction)
+  parser.add_argument('--build', action=argparse.BooleanOptionalAction)
+  parser.add_argument('--patch', action=argparse.BooleanOptionalAction)
+  return parser.parse_args()
 
-infile = open(f"{FILE_LOCAL_INSTALL_PART}.template",'r')
-template = infile.read()
-infile.close()
+def getNewVersion():
+  infile = open(FILE_TOML,'r')
+  config = toml.loads(infile.read())
+  infile.close()
 
-outfile = open(f"bin/{FILE_LOCAL_INSTALL_PART}",'w')
-template = template.replace('__VERSION__',str(ver))
-outfile.write(template)
-outfile.close()
+  ver = upgradeVersion(semver.Version.parse(config['project']['version']))
+
+  config['project']['version'] = str(ver)
+  print (f"New version: {ver}")
+
+  outfile = open(FILE_TOML,'w')
+  outfile.write(toml.dumps(config))
+  outfile.close()
+
+  return ver
+
+ver = getNewVersion()
+updateExecScript(FILE_LOCAL_INSTALL_PART, str(ver))
+updateExecScript(FILE_USER_INSTALL_PART, str(ver))

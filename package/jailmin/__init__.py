@@ -3,9 +3,7 @@ import argparse
 import importlib.metadata
 # custom
 import jailmin.CmdConsole as CmdConsole
-
-def cmdList(args):
-  print ('list')
+import jailmin.CmdList as CmdList
 
 def doCli():
   print(f"Jailmin version {importlib.metadata.version('jailmin')}")
@@ -17,16 +15,12 @@ def doCli():
   cmdparser = parser.add_subparsers(dest='cmd')
 
   CmdConsole.addParser(cmdparser)
-
-  ListParser = cmdparser.add_parser('list', 
-    help='overloaded Bastille list command', 
-  )
-  ListParser.set_defaults(func=cmdList)
+  CmdList.setSubparser(cmdparser)
 
   args = parser.parse_args()
   print (f"cmd: {args.cmd}")
   if args.cmd:
-    args.func(args)
+    args.func(args = args)
   else:
-    cmdList(args)
+    CmdList.execCmd(args = args)
 

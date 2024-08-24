@@ -1,0 +1,2 @@
+venv/bin/pip uninstall -y jailmin
+venv/bin/pip install dist/jailmin-__VERSION__-py3-none-any.whl
