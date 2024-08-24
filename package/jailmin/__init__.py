@@ -24,6 +24,9 @@ def doCli():
   ListParser.set_defaults(func=cmdList)
 
   args = parser.parse_args()
-  args.func(args)
-
   print (f"cmd: {args.cmd}")
+  if args.cmd:
+    args.func(args)
+  else:
+    cmdList(args)
+
