@@ -15,7 +15,7 @@ def doCli():
   cmdparser = parser.add_subparsers(dest='cmd')
 
   CmdConsole.addParser(cmdparser)
-  CmdList.setSubparser(cmdparser)
+  CmdList.addParser(cmdparser)
 
   args = parser.parse_args()
   print (f"cmd: {args.cmd}")

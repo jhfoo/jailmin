@@ -3,44 +3,27 @@ import os
 import re
 import subprocess
 import shutil
+
+# custom
 import jailmin.CmdUtil as CmdUtil
+
 
 def execCmd(args):
   # print (args)
 
-  result = subprocess.run(
-    CmdUtil.elevatePermissions(args, ['bastille','list','-a']),
-    capture_output = True)
+  jails, RawResponse = CmdUtil.getJails()
 
-  FieldNames = []
-  jails = []
-  if result.returncode == 0:
-    for idx, line in enumerate(result.stdout.decode('utf-8').splitlines()):
-      if idx == 0:
-        for FieldName in re.split(r'\s+', line):
-          # print (f'field: {FieldName}')
-          FieldNames.append(FieldName)
-      else:
-        # print (f'New line')
-        rec = {}
-        for idx, FieldValue in enumerate(re.split(r'\s+', line)):
-          FieldName = FieldNames[idx]
-          if FieldNames[idx] != '':
-            rec[FieldNames[idx]] = FieldValue 
-            # print (f'field: {FieldValue}')
-        jails.append(rec)
-  else:
-    print (result.stderr)
-
-  if 'json' in args and args.json:
-    print (json.dumps(jails, indent=2))
-  else:
-    print(result.stdout.decode('utf-8'))
+  if not jails is None:
+    if 'json' in args and args.json:
+      print (json.dumps(jails, indent=2))
+    else:
+      print (RawResponse)
 
   return jails
 
-def setSubparser(cmdparser):
+def addParser(cmdparser):
   ListParser = cmdparser.add_parser('list', 
+    aliases=['ls'],
     help='overloaded Bastille list command', 
   )
   ListParser.add_argument('-j', '--json', default = False, action='store_true')
