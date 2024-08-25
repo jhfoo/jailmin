@@ -1,2 +1,2 @@
 pip uninstall -y jailmin
-pip install dist/jailmin-0.0.0+build.13-py3-none-any.whl
+pip install dist/jailmin-0.0.0+build.14-py3-none-any.whl

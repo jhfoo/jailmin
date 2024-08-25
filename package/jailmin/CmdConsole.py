@@ -14,7 +14,7 @@ def execCmd(args):
     print ('Invalid jail id')
     return
 
-  print (f'Applying CONSOLE cmd: {MatchedJailId}')
+  print (f'CONSOLE to: {MatchedJailId}')
 
   result = subprocess.run(CmdUtil.elevatePermissions(['bastille','console', MatchedJailId]))
   print (f'returncode: {result.returncode}')

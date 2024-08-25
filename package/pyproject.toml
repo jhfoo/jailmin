@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "jailmin"
-version = "0.0.0+build.13"
+version = "0.0.0+build.14"
 dependencies = []
 
 [project.scripts]
