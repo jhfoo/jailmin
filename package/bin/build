@@ -1,2 +1,9 @@
+PATH_SCRIPT=`dirname $0`
+#echo $PATH_SCRIPT
+
+cd $PATH_SCRIPT/..
+echo "- Working directory: `pwd`"
+
 venv/bin/python3 update-version.py $1
+rm -rf dist
 venv/bin/python3 -m build

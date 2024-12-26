@@ -4,8 +4,11 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "jailmin"
-version = "0.0.0+build.15"
+version = "0.0.0+build.30"
 dependencies = []
 
 [project.scripts]
 jailmin = "jailmin:doCli"
+
+[tool.setuptools.packages.find]
+where = [ "src",]
