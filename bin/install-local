@@ -5,4 +5,4 @@ cd $PATH_SCRIPT/..
 echo "- Working directory: `pwd`"
 
 ./venv/bin/pip uninstall -y jailmin
-./venv/bin/pip install dist/jailmin-0.0.0+build.30-py3-none-any.whl
+./venv/bin/pip install dist/jailmin-0.0.0+build.31-py3-none-any.whl

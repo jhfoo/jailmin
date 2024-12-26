@@ -1,9 +1,0 @@
-PKG consul
-
-CMD mkdir -p /usr/local/etc/consul.d
-CP core.json usr/local/etc/consul.d/
-ARG CONSUL_NETWORK = 192.168.80.0/16
-ARG CONSUL_SERVER = consul.service.plano.consul
-RENDER /usr/local/etc/consul.d/core.json
-SYSRC consul_enable=YES
-SERVICE consul restart

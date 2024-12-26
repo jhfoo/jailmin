@@ -1,4 +1,0 @@
-JailDefaultRouter: 192.168.80.1
-JailBaseImage: 13.1-RELEASE
-JailInterface: epair0a
-JailIpAddress: 0.0.0.0

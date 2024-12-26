@@ -1,6 +1,0 @@
-PKG consul
-SYSRC consul_enable=YES
-SERVICE consul start
-CP core.json /usr/local/etc/consul.d/
-SERVICE consul restart
-

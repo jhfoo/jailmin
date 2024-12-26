@@ -1,8 +1,0 @@
-name: {{jailname}}
-release: {{jailrelease}}
-tasks:
-  - name: install nginx
-    do: runtemplate
-    template: nginx
-  - name: restart jail
-    do: jailrestart

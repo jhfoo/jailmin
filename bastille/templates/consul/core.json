@@ -1,8 +1,0 @@
-{
-  "datacenter": "plano",
-  "server": false,
-  "bind_addr": "{{ GetPrivateInterfaces | include \"network\" \"${CONSUL_NETWORK}\" | attr \"address\" }}",
-  "client_addr": "{{ GetPrivateInterfaces | include \"network\" \"${CONSUL_NETWORK}\" | attr \"address\" }}",
-  "retry_join": ["${CONSUL_SERVER}"]
-}
-

@@ -1,7 +1,0 @@
-<<<<<<< HEAD
-venv/bin/pip3 uninstall -y jailmin
-venv/bin/pip3 install dist/jailmin-__VERSION__-py3-none-any.whl
-=======
-venv/bin/pip uninstall -y jailmin
-venv/bin/pip install dist/jailmin-__VERSION__-py3-none-any.whl
->>>>>>> 9906fcd40d67c2f14fee926bb79a8f3511dbe5f4

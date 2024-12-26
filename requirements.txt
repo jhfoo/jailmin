@@ -1,6 +1,4 @@
-wheel
-pyyaml 
-psutil
-paramiko
-fastapi
-uvicorn[standard]
+setuptools
+build
+semver
+toml

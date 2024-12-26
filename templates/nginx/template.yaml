@@ -1,9 +1,0 @@
-pkgs:
-  - nginx
-tasks:
-  - name: enable nginx service auto start
-    do: jailexec
-    cmd: sysrc nginx_enable="YES"
-  - name: start nginx
-    do: jailexec
-    cmd: service nginx start
