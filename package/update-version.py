@@ -7,9 +7,12 @@ import semver
 FILE_TOML = 'pyproject.toml'
 FILE_LOCAL_INSTALL_PART = 'install-local'
 FILE_USER_INSTALL_PART = 'install-user'
+<<<<<<< HEAD
+=======
 
 def upgradeVersion(ver):
   args = getArgs()
+>>>>>>> 9906fcd40d67c2f14fee926bb79a8f3511dbe5f4
 
   if args.minor:
     return ver.bump_minor()
@@ -23,6 +26,18 @@ def updateExecScript(fname, ver):
   infile = open(f"{fname}.template",'r')
   template = infile.read()
   infile.close()
+<<<<<<< HEAD
+
+  outfile = open(f"bin/{fname}",'w')
+  template = template.replace('__VERSION__',ver)
+  outfile.write(template)
+  outfile.close()
+
+infile = open(FILE_TOML,'r')
+config = toml.loads(infile.read())
+infile.close()
+=======
+>>>>>>> 9906fcd40d67c2f14fee926bb79a8f3511dbe5f4
 
   outfile = open(f"bin/{fname}",'w')
   template = template.replace('__VERSION__',ver)
@@ -39,6 +54,19 @@ def getArgs():
   parser.add_argument('--patch', action=argparse.BooleanOptionalAction)
   return parser.parse_args()
 
+<<<<<<< HEAD
+updateExecScript(FILE_LOCAL_INSTALL_PART), str(ver))
+updateExecScript(FILE_USER_INSTALL_PART), str(ver))
+
+# infile = open(f"{FILE_LOCAL_INSTALL_PART}.template",'r')
+# template = infile.read()
+# infile.close()
+
+# outfile = open(f"bin/{FILE_LOCAL_INSTALL_PART}",'w')
+# template = template.replace('__VERSION__',str(ver))
+# outfile.write(template)
+# outfile.close()
+=======
 def getNewVersion():
   infile = open(FILE_TOML,'r')
   config = toml.loads(infile.read())
@@ -58,3 +86,4 @@ def getNewVersion():
 ver = getNewVersion()
 updateExecScript(FILE_LOCAL_INSTALL_PART, str(ver))
 updateExecScript(FILE_USER_INSTALL_PART, str(ver))
+>>>>>>> 9906fcd40d67c2f14fee926bb79a8f3511dbe5f4
