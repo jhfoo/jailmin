@@ -27,6 +27,7 @@ def addBlindSubparser(parser, cmd):
   subparser.set_defaults(func=cmdPassThrough)
 
 def doCli():
+  # print (__name__)
   print(f"Jailmin version {importlib.metadata.version('jailmin')}")
 
   parser = argparse.ArgumentParser(
@@ -39,6 +40,7 @@ def doCli():
   CmdList.addParser(cmdparser)
   addBlindSubparser(cmdparser, 'stop')
   addBlindSubparser(cmdparser, 'start')
+  addBlindSubparser(cmdparser, 'restart')
 
   parser.set_defaults(func=cmdPassThrough)
 

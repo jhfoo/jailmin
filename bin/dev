@@ -1,1 +1,7 @@
-sudo venv/bin/python3 cli.py $@
+PATH_SCRIPT=`dirname $0`
+#echo $PATH_SCRIPT
+
+cd $PATH_SCRIPT/..
+echo "- Working directory: `pwd`"
+
+sudo venv/bin/python3 test/cli.py $@
