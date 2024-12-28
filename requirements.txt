@@ -2,3 +2,4 @@ setuptools
 build
 semver
 toml
+twine
