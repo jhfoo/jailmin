@@ -4,5 +4,5 @@ PATH_SCRIPT=`dirname $0`
 cd $PATH_SCRIPT/..
 echo "- Working directory: `pwd`"
 
-pip uninstall -y jailmin
+./bin/uninstall-user
 pip install dist/jailmin-0.0.3-py3-none-any.whl
